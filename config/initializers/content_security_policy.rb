@@ -16,6 +16,7 @@ base_host = Rails.configuration.x.web_domain
 
 assets_host   = Rails.configuration.action_controller.asset_host
 assets_host ||= host_to_url(base_host)
+cf_beacon     = "https://static.cloudflareinsights.com"
 
 media_host   = host_to_url(ENV['S3_ALIAS_HOST'])
 media_host ||= host_to_url(ENV['S3_CLOUDFRONT_HOST'])
@@ -69,7 +70,7 @@ Rails.application.config.content_security_policy do |p|
     p.script_src  :self, :unsafe_inline, :unsafe_eval, assets_host
   else
     p.connect_src :self, :data, :blob, assets_host, media_host, Rails.configuration.x.streaming_api_base_url
-    p.script_src  :self, assets_host, "'wasm-unsafe-eval'"
+    p.script_src  :self, assets_host, cf_beacon, "'wasm-unsafe-eval'"
   end
 end
 
