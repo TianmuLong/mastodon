@@ -17,10 +17,9 @@ base_host = Rails.configuration.x.web_domain
 assets_host   = Rails.configuration.action_controller.asset_host
 assets_host ||= host_to_url(base_host)
 
-cf_beacon     = "https://static.cloudflareinsights.com"
-beacons       = cf_beacon
-beacons     ||= "https://www.atmrum.net"
-beacons     ||= "https://ajax.cloudflare.com"
+cf_beacon       = "https://static.cloudflareinsights.com"
+azure_beacon    = "https://www.atmrum.net"
+cf_rocketloader = "https://ajax.cloudflare.com"
 
 media_host   = host_to_url(ENV['S3_ALIAS_HOST'])
 media_host ||= host_to_url(ENV['S3_CLOUDFRONT_HOST'])
@@ -74,7 +73,7 @@ Rails.application.config.content_security_policy do |p|
     p.script_src  :self, :unsafe_inline, :unsafe_eval, assets_host
   else
     p.connect_src :self, :data, :blob, assets_host, media_host, cf_beacon, Rails.configuration.x.streaming_api_base_url
-    p.script_src  :self, :unsafe_inline, assets_host, beacons, "'wasm-unsafe-eval'"
+    p.script_src  :self, :unsafe_inline, assets_host, cf_beacon, cf_rocketloader, azure_beacon, "'wasm-unsafe-eval'"
   end
 end
 
