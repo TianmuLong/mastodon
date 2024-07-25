@@ -19,6 +19,7 @@ assets_host ||= host_to_url(base_host)
 
 cf_beacon       = "https://static.cloudflareinsights.com"
 azure_beacon    = "https://www.atmrum.net"
+azure_footprint = "https://*.footprintdns.com"
 cf_rocketloader = "https://ajax.cloudflare.com"
 
 media_host   = host_to_url(ENV['S3_ALIAS_HOST'])
@@ -72,7 +73,7 @@ Rails.application.config.content_security_policy do |p|
     p.connect_src :self, :data, :blob, assets_host, media_host, Rails.configuration.x.streaming_api_base_url, *webpacker_urls
     p.script_src  :self, :unsafe_inline, :unsafe_eval, assets_host
   else
-    p.connect_src :self, :data, :blob, assets_host, media_host, cf_beacon, azure_beacon, Rails.configuration.x.streaming_api_base_url
+    p.connect_src :self, :data, :blob, assets_host, media_host, cf_beacon, azure_beacon, azure_footprint, Rails.configuration.x.streaming_api_base_url
     p.script_src  :self, :unsafe_inline, assets_host, cf_beacon, cf_rocketloader, azure_beacon, "'wasm-unsafe-eval'"
   end
 end
