@@ -72,7 +72,7 @@ Rails.application.config.content_security_policy do |p|
     p.connect_src :self, :data, :blob, assets_host, media_host, Rails.configuration.x.streaming_api_base_url, *webpacker_urls
     p.script_src  :self, :unsafe_inline, :unsafe_eval, assets_host
   else
-    p.connect_src :self, :data, :blob, assets_host, media_host, cf_beacon, Rails.configuration.x.streaming_api_base_url
+    p.connect_src :self, :data, :blob, assets_host, media_host, cf_beacon, azure_beacon, Rails.configuration.x.streaming_api_base_url
     p.script_src  :self, :unsafe_inline, assets_host, cf_beacon, cf_rocketloader, azure_beacon, "'wasm-unsafe-eval'"
   end
 end
